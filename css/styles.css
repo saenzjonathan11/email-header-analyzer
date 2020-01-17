@@ -48,7 +48,6 @@ table {
     /* background-color: white; */
 }
 
-
 body {
     background-color: #f8f8f8;
     background-color:grey;
@@ -210,6 +209,15 @@ p {
 .example p { 
     font-weight: bolder;
     font-size: 18px;
+}
+
+
+.messageID {
+    color: white;
+    padding-bottom: 10px;
+    width: 100%;
+    background-color: black;
+    /* text-align: center; */
 }
 
 #ipTable {

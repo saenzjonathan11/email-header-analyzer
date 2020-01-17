@@ -29,10 +29,21 @@ var newArray = [];
 function parse() {
     var text = document.getElementById("textToParse").value; 
     var regex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/g;
+    var regex2 = /Message-ID:\s+([<'])(.*?)([>'])/g
+    var regex3 = /([<].*?[>])/g
     ipAll = text.match(regex);
     // remove duplicates ip addresses
     publicIPs = Array.from(new Set(ipAll));
+    messageID = text.match(regex2);
+    messageID = messageID[messageID.length-1];
+    messageID = messageID.substring(13, messageID.length-1);
+    console.log(messageID);
     console.log(publicIPs);
+    var messageIDDiv = document.createElement("DIV");
+    messageIDDiv.setAttribute("class", "messageID");
+    document.body.appendChild(messageIDDiv);
+    messageIDDiv.innerHTML = "Message:ID :" + messageID;
+    // document.getElementsByClassName("messageID").textContent = messageID;
     if (!text || 0 === text.length) {
         if (document.getElementById('ipTable')) {
             document.getElementById('ipTable').remove();
@@ -57,6 +68,7 @@ function parse() {
             document.body.appendChild(map); 
             document.body.appendChild(footer);
         }
+
 
         var ipTable = document.createElement("TABLE");
         ipTable.setAttribute("id", "ipTable");
@@ -85,6 +97,9 @@ function parse() {
         for (let i = 0; i < publicIPs.length; ++i) {
             runRequest(publicIPs[i]);
         }
+
+        // getElementById("messageID").appendChild(messageID);
+
         // var lat = 0; lng = 0;
         // for (let i = 0; i < publicIPs.length; ++i) {
         //     let url = 'http://api.ipapi.com/' + publicIPs[i] + '?access_key=149b8e5e90715dc7185f92575e3e82c5';
@@ -110,9 +125,8 @@ function parse() {
     }
 }
 
-
 function runRequest(uniqueIP) {
-    console.log(uniqueIP);
+    // console.log(uniqueIP);
     var lat = 0; lng = 0;
     let url = 'http://api.ipapi.com/' + uniqueIP + '?access_key=149b8e5e90715dc7185f92575e3e82c5';
     let request = new XMLHttpRequest();
@@ -141,29 +155,17 @@ function runRequest(uniqueIP) {
 // }
 
 function renderTable(data) {
-    // import { Client, WebSocket } from 'cors-bypass';
-
-
-    // const client = new Client();
-    // await client.openServerInNewTab({
-    // serverUrl: 'http://random-domain.com/server.html',
-    // adapterUrl: 'https://your-site.com/adapter.html'
-    // })
-
-    // const ws = new WebSocket('ws://echo.websocket.org');
-    // ws.onopen = () => ws.send('hello');
-    // ws.onmessage = ({ data }) => console.log('received', data);
 
     let numCols = 5;
 
     ip = data['ip'];
     let url2 = 'https://www.virustotal.com/vtapi/v2/ip-address/report?apikey=a084c74b1c2c65e9cc351b26ad193ff2b83d2a3359850e298af64442a22b7627&ip=' + ip;
     let request2 = new XMLHttpRequest();
-    request2.responseType = 'jason';
+    request2.responseType = 'json';
     request2.open('GET', url2);
     request2.onload = function() {
         let data = request2.response;
-        console.log(data);
+        // console.log(data);
         console.log("%%%%%");
     }
     request2.send();
@@ -173,7 +175,6 @@ function renderTable(data) {
     region = data['region_name'];
     countryCode = data['country_code'];
     flagURL = data['location']['country_flag'];
-    console.log(flagURL);
     let tableData = [ip, party, country, region, countryCode];
 
     if (!region) {
@@ -186,17 +187,13 @@ function renderTable(data) {
     for (let i = 0; i < numCols; ++i) {
             let col = document.createTextNode(tableData[i]);
             let td = document.createElement("TD");
-            console.log(i);
         if (i === 4) {
             let elem = document.createElement("img");
             elem.setAttribute("src", flagURL);
             elem.setAttribute("height", "13");
             elem.setAttribute("width", "18");
-            // elem.setAttribute("height", "17");
-            // elem.setAttribute("width", "17");
             tr.appendChild(td);
             td.appendChild(elem);
-            console.log("here");
         } else {
             tr.appendChild(td);
             td.appendChild(col);
@@ -209,10 +206,6 @@ function renderTable(data) {
 function reqListener () {
     console.log(this.responseText);
 }
-
-// function validateIPaddress(ipaddress) {
-//     return Array.from(new Set(ipaddress));
-// }
 
 function transferFailed(evt) {
     console.log("An error occurred while transferring the file.");

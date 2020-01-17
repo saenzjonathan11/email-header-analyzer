@@ -22,7 +22,7 @@
                   </div>
                   <div class="example">
                      <a target="_blank" href="https://docs.google.com/document/d/1h0iHijSztQwomQJyhlI8VT-qlmwdfyeqy16LWLVe9VQ/edit?usp=sharing">Get Header Example Here</a>
-                     <p> On this subdomain, SSL encryption is disabled becuase of cross origin policy conflict with free APIs being used</p>
+                     <p> On this subdomain, SSL encryption is disabled because of cross origin policy conflict with free APIs being used</p>
                   </div>
                   <table class="texttoparse">
                      <tbody>
