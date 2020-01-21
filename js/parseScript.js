@@ -1,26 +1,14 @@
-// function initMap() {
-//     let latitude = 0, longitude = 0;
-//     // The location of Uluru
-//     var uluru = {lat: latitude, lng: longitude};
-//     // The map, centered at Uluru
-//     var map = new google.maps.Map(
-//         document.getElementById('map'), {zoom: 4, center: uluru});
-//     // The marker, positioned at Uluru
-//     var marker = new google.maps.Marker({position: uluru, map: map});
-// }
-
 // Initialize and add the map
 function initMap(latitude = 42, longitude = 32) {
-    console.log("initMap");
-// function initMap() {
-//     let latitude = 42, longitude = 32;
     // The location of Uluru
     var uluru = {lat: latitude, lng: longitude};
     // The map, centered at Uluru
-    var map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 5, center: uluru});
-    // The marker, positioned at Uluru
-    var marker = new google.maps.Marker({position: uluru, map: map});
+    if (document.getElementById('map') !== null) {
+        var map = new google.maps.Map(
+            document.getElementById('map'), {zoom: 5, center: uluru});
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({position: uluru, map: map});
+    }
 }
 
 var newArray = [];
@@ -69,7 +57,6 @@ function parse() {
             document.body.appendChild(footer);
         }
 
-
         var ipTable = document.createElement("TABLE");
         ipTable.setAttribute("id", "ipTable");
         document.getElementById("dataTable").appendChild(ipTable);
@@ -97,84 +84,46 @@ function parse() {
         for (let i = 0; i < publicIPs.length; ++i) {
             runRequest(publicIPs[i]);
         }
-
-        // getElementById("messageID").appendChild(messageID);
-
-        // var lat = 0; lng = 0;
-        // for (let i = 0; i < publicIPs.length; ++i) {
-        //     let url = 'http://api.ipapi.com/' + publicIPs[i] + '?access_key=149b8e5e90715dc7185f92575e3e82c5';
-        //     let request = new XMLHttpRequest();
-        //     request.responseType = 'json';
-        //     request.open('GET', url);
-        //     request.onload = function() {
-        //     let data = request.response;
-        //         if (data['type']) {
-        //             if(typeof(data['latitude']) === 'number' && typeof(data['longitude']) === 'number') {
-        //                 lat = data['latitude'];
-        //                 lng = data['longitude'];
-        //                 initMap(lat, lng);
-        //                 renderTable(data);
-        //             }
-        //         }
-        //     }
-        //     request.send();
-        //     console.log(lat + " - " + lng);
-        // }
-        // console.log(lat + " " + lng);
-
     }
 }
 
 function runRequest(uniqueIP) {
-    // console.log(uniqueIP);
     var lat = 0; lng = 0;
-    let url = 'http://api.ipapi.com/' + uniqueIP + '?access_key=149b8e5e90715dc7185f92575e3e82c5';
+    let url = 'https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=' + uniqueIP;
     let request = new XMLHttpRequest();
-    // request.addEventListener("load", reqListener);
     request.responseType = 'json';
     request.open('GET', url);
     request.onload = function() {
         let data = request.response;
         console.log(data);
-        if (data['type']) {
-            if(typeof(data['latitude']) === 'number' && typeof(data['longitude']) === 'number') {
-                lat = data['latitude'];
-                lng = data['longitude'];
+        console.log(typeof(data['ip']) !== "undefined");
+        if (typeof(data['ip']) !== "undefined") {
+                lat = parseInt(data['latitude']);
+                lng = parseInt(data['longitude']);
                 initMap(lat, lng);
-                // newArray.push(data);
                 renderTable(data);
-            }
         }
     }
     request.send();
-    // console.log(lat + " - " + lng);
 }
 
-// function reqListener () {
-//   console.log(this.responseText);
-// }
-
 function renderTable(data) {
-
     let numCols = 5;
-
     ip = data['ip'];
-    let url2 = 'https://www.virustotal.com/vtapi/v2/ip-address/report?apikey=a084c74b1c2c65e9cc351b26ad193ff2b83d2a3359850e298af64442a22b7627&ip=' + ip;
-    let request2 = new XMLHttpRequest();
-    request2.responseType = 'json';
-    request2.open('GET', url2);
-    request2.onload = function() {
-        let data = request2.response;
-        // console.log(data);
-        console.log("%%%%%");
-    }
-    request2.send();
+    // let url2 = 'https://www.virustotal.com/vtapi/v2/ip-address/report?apikey=a084c74b1c2c65e9cc351b26ad193ff2b83d2a3359850e298af64442a22b7627&ip=' + ip;
+    // let request2 = new XMLHttpRequest();
+    // request2.responseType = 'json';
+    // request2.open('GET', url2);
+    // request2.onload = function() {
+    //     let data = request2.response;
+    // }
+    // request2.send();
 
     party = "virusTotal&Talos";
     country = data['country_name'];
-    region = data['region_name'];
+    region = data['state_prov'];
     countryCode = data['country_code'];
-    flagURL = data['location']['country_flag'];
+    flagURL = data['country_flag'];
     let tableData = [ip, party, country, region, countryCode];
 
     if (!region) {
