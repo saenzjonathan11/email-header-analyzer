@@ -3,7 +3,7 @@ Web application to parse email headers and display IP address metadata
 
 Currently under development but can access application by visiting [emailheaderanalyzer.jonathanfsaenz.com](https://emailheaderanalyzer.jonathanfsaenz.com)
 
-**Task to complete:**
+**Tasks to complete:**
 
 - Rewrite code to use more style display in javascript rather than create elements with Javascript
 - Sequencing ajax request responses
