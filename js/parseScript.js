@@ -1,90 +1,45 @@
 // Initialize and add the map
 function initMap(latitude = 42, longitude = 32) {
+    console.log("map");
     // The location of Uluru
     var uluru = {lat: latitude, lng: longitude};
     // The map, centered at Uluru
     if (document.getElementById('map') !== null) {
         var map = new google.maps.Map(
-            document.getElementById('map'), {zoom: 5, center: uluru});
+        document.getElementById('map'), {zoom: 5, center: uluru});
         // The marker, positioned at Uluru
         var marker = new google.maps.Marker({position: uluru, map: map});
     }
 }
 
-var newArray = [];
-
 // gets email header and parses the text for all the ip Address
 function parse() {
+    // extract all IP addresses
     var text = document.getElementById("textToParse").value; 
     var regex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/g;
     var regex2 = /Message-ID:\s+([<'])(.*?)([>'])/g
-    var regex3 = /([<].*?[>])/g
     ipAll = text.match(regex);
     // remove duplicates ip addresses
     publicIPs = Array.from(new Set(ipAll));
+    // extract message ID from header
     messageID = text.match(regex2);
     messageID = messageID[messageID.length-1];
     messageID = messageID.substring(13, messageID.length-1);
-    console.log(messageID);
-    console.log(publicIPs);
     var messageIDDiv = document.createElement("DIV");
     messageIDDiv.setAttribute("class", "messageID");
     document.body.appendChild(messageIDDiv);
     messageIDDiv.innerHTML = "Message:ID :" + messageID;
-    // document.getElementsByClassName("messageID").textContent = messageID;
-    if (!text || 0 === text.length) {
-        if (document.getElementById('ipTable')) {
-            document.getElementById('ipTable').remove();
-        }
-        if (document.getElementById('map')) {
-            document.getElementById('map').remove();
-            document.getElementById('footer').remove();
-        }
-        return;
-    } else {
 
-        // prevents previous table displaying 
-        if (document.getElementById("ipTable")) {
-            document.getElementById("ipTable").remove();
-        }
+    console.log(messageID);
+    console.log(publicIPs);
 
-        if (!document.getElementById("map")) {
-            var map = document.createElement("DIV");
-            var footer = document.createElement("DIV");
-            map.setAttribute("id", "map");
-            footer.setAttribute("id", "footer");
-            document.body.appendChild(map); 
-            document.body.appendChild(footer);
-        }
-
-        var ipTable = document.createElement("TABLE");
-        ipTable.setAttribute("id", "ipTable");
-        document.getElementById("dataTable").appendChild(ipTable);
-
-        var tableHead = document.createElement("THEAD");
-        tableHead.setAttribute("id", "ipTableHead");
-        document.getElementById("ipTable").appendChild(tableHead); 
-
-        var tableHeader = document.createElement("TR");
-        tableHeader.setAttribute("id", "tableHeader");
-        document.getElementById("ipTableHead").appendChild(tableHeader); 
-
-        let headerNames = ["IP address(s)", "3rd Party Anaylzer", "Country", "Region", "Flag"];
-        for (let i = 0; i < headerNames.length; ++i) {
-            var th = document.createElement("th");
-            tableHeader.appendChild(th);
-            var header = document.createTextNode(headerNames[i]);
-            th.appendChild(header);
-        }
-
-        var tableBody = document.createElement("TBODY");
-        tableBody.setAttribute("id", "ipTableBody");
-        document.getElementById("ipTable").appendChild(tableBody); 
-       
-        for (let i = 0; i < publicIPs.length; ++i) {
-            runRequest(publicIPs[i]);
-        }
+    // clear text area and table for every button press
+    document.getElementById("textToParse").value = "";
+    let tableBody = document.getElementById('ipTableBody').innerHTML = "";
+    for (let i = 0; i < publicIPs.length; ++i) {
+        runRequest(publicIPs[i]);
     }
+
 }
 
 function runRequest(uniqueIP) {
@@ -158,4 +113,17 @@ function reqListener () {
 
 function transferFailed(evt) {
     console.log("An error occurred while transferring the file.");
+}
+
+function displayTable() {
+    var x = document.getElementById("dataTable");
+    var y = document.getElementById("map");
+    let areaText = document.getElementById("textToParse").value; 
+    if (!areaText) {
+        x.style.display = "none";
+        y.style.display = "none";
+    } else if (areaText) {
+        x.style.display = "block";
+        y.style.display = "inline-block";
+    }
 }

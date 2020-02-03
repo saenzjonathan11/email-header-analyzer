@@ -1,20 +1,17 @@
-   <?php
-      ini_set('display_errors', 'On');
-      define('ROOT', dirname(__FILE__).'/');
-   ?>
 <!DOCTYPE html>
 <html>
    <head>
-      <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
       <title>Email Header Analyzer</title>
-      <link rel="stylesheet" type="text/css" href="/css/styles.css">
+      <link rel="stylesheet" type="text/css" href="css/styles.css">
    </head>
 
    <body>
       <div class="wrapper">
+
          <div class="middle-row">
-            <div class="left-column">
-            </div>
+
+            <div class="left-column"></div>
+
             <div class="middle-column">
                <div class="text-center">
                   <div class="maintitle">
@@ -39,7 +36,7 @@
                         <tr>
                            <td>
                               <p class="text-centerarea">
-                                 <input type = "button" onclick = "parse();" name = "ok" value="Submit Header For Analysis" />
+                                 <input type = "button" onclick = "displayTable();parse();" name = "ok" value="Submit Header For Analysis" />
                               </p>
                            </td>
                         </tr>
@@ -47,21 +44,36 @@
                   </table>
                </div>
             </div>
-            <div class="right-column">
-            </div>
+
+            <div class="right-column"></div>
+
          </div>
-      </div>
-         <div id="dataTable"></div>
+
       </div>
 
-      <!-- <div class="images">
-         <img src="http://assets.ipapi.com/flags/sg.svg">
-      </div> -->
+      <div id="dataTable" style="display:none;">
+         <table id="ipTable">
+            <thead id="ipTableHead">
+               <tr id="tableHeader">
+                  <th>IP address(s)</th>
+                  <th>3rd Party Anaylzer</th>
+                  <th>Country</th>
+                  <th>Region</th>
+                  <th>Flag</th>
+               </tr>
+            </thead>
+            <tbody id="ipTableBody">
+            </tbody>
+         </table>
+      </div>
 
-      <script src = "/js/parseScript.js" type = "text/javascript"></script>
+      <div id="map" style="display:none;"></div>
+
+      <script src = "js/parseScript.js" type = "text/javascript"></script>
       <script async defer
          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwFJUHMlRliNKoA1bT9BV8CRr2l_A9DR8&callback=initMap">
       </script>
+
    </body>
 
 </html>

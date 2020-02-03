@@ -45,25 +45,17 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
     border-spacing: 0;
-    /* background-color: white; */
 }
 
 body {
     background-color: #f8f8f8;
     background-color:grey;
     text-align: center;
-    /* padding-top: 50px; */
 }
 
 div {
     display: block;
 }
-/* form {
-} */
-
-/* form input.align1 {
-    text-align: center;
-}  */
 
 textarea {
     border: 1px solid black;
@@ -73,7 +65,7 @@ textarea {
     height: 400px; /* The height is 400 pixels */
     width: 80%; /* The width is the width of the web page */
     /* margin-left: 25%; */
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .enterText {
@@ -82,7 +74,7 @@ textarea {
 }
 
 .wrapper {
-    width: 80%;
+    width: 100%;
     max-width: 100%;
     margin: 0 auto;
     background:rgb(221, 223, 224);
@@ -110,7 +102,7 @@ textarea {
     vertical-align: top;
 }
 .middle-column {
-    width: 50%;
+    width: 100%;
     display: inline-block;
     vertical-align: top;
 }
@@ -125,25 +117,8 @@ textarea {
     font-size: large;
 }
 
-
-/* #dataTable {
-    background-color: lightblue;
-}
-
-table, th, td {
-  border: 1px solid black;
-  background-color: lightblue;
-  border-collapse: collapse;
-  padding: 5px;
-  margin-left: 30%;
-  margin-right: 30%;
-} */
-
-
 table {
-    /* background-color: lightblue; */
     border: 1px solid black;
-    /* border-collapse: collapse; */
     width: 100%;
     font-size: 22px;
 }
@@ -152,7 +127,6 @@ th, td, tr {
     border-collapse: collapse;
     border: 1px solid black;
     font: 12px Verdana,Arial,Helvetica,sans-serif;
-    /* background-color: white; */
 }
 
 tr {
@@ -160,7 +134,7 @@ tr {
 }
 
 .texttoparse {
-    width: 80%;
+    width: 440px;
     border: 0px;
     background-color: black;
     margin: 0 auto;
@@ -168,8 +142,6 @@ tr {
 }
 
 .center-textarea {
-    /* align-items: center; */
-    /* vertical-align: baseline; */
     background-color: blue;
 }
 #textToParse {
@@ -179,8 +151,6 @@ tr {
 }
 
 #dataTable {
-    /* background-color: black; */
-    display: block;
     margin-left: auto;
     margin-right: auto;
     width: 80%;  
@@ -211,23 +181,19 @@ p {
     font-size: 18px;
 }
 
-
 .messageID {
     color: white;
     padding-bottom: 10px;
     width: 100%;
     background-color: black;
-    /* text-align: center; */
 }
 
 #ipTable {
     background-color: rgb(221, 223, 224);
-    
 }
 
 #ipTable th {
     padding: 0px;
-
 } 
 
 #ipTable td {
