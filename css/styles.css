@@ -62,10 +62,8 @@ textarea {
 }
 
 #map {
-    height: 400px; /* The height is 400 pixels */
-    width: 80%; /* The width is the width of the web page */
-    /* margin-left: 25%; */
-    /* display: inline-block; */
+    height: 400px;
+    width: 80%;
 }
 
 .enterText {
@@ -181,7 +179,7 @@ p {
     font-size: 18px;
 }
 
-.messageID {
+#messageID {
     color: white;
     padding-bottom: 10px;
     width: 100%;

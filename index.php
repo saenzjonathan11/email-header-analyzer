@@ -36,7 +36,7 @@
                         <tr>
                            <td>
                               <p class="text-centerarea">
-                                 <input type = "button" onclick = "displayTable();parse();" name = "ok" value="Submit Header For Analysis" />
+                                 <input type = "button" onclick = "parse();" name = "ok" value="Submit Header For Analysis" />
                               </p>
                            </td>
                         </tr>
@@ -50,6 +50,8 @@
          </div>
 
       </div>
+
+      <div id="messageID" style="display:none;"></div>
 
       <div id="dataTable" style="display:none;">
          <table id="ipTable">
