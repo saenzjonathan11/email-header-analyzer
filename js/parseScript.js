@@ -51,7 +51,7 @@ function parse() {
 
 function runRequest(uniqueIP) {
     var lat = 0; lng = 0;
-    let url = 'https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=' + uniqueIP;
+    let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
     let request = new XMLHttpRequest();
     request.responseType = "json";
     request.open("GET", url);
