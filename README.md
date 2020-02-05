@@ -5,7 +5,6 @@ Currently under development but can access application by visiting [emailheadera
 
 **Tasks to complete:**
 
-- Sequencing ajax request responses
 - displaying more metadata about the source IP address
 - creating a virustotal and cisco talos link to direct users to analyze source IP with those sites
 - Create MySQL database
