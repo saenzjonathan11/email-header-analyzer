@@ -14,12 +14,13 @@
 
             <div class="middle-column">
                <div class="text-center">
-                  <div class="maintitle">
-                     <h1> Email Header Analysis </h1>
-                  </div>
-                  <div class="example">
-                     <a target="_blank" href="https://docs.google.com/document/d/1h0iHijSztQwomQJyhlI8VT-qlmwdfyeqy16LWLVe9VQ/edit?usp=sharing">Get Header Example Here</a>
-                     <p> On this subdomain, SSL encryption is disabled because of cross origin policy conflict with free APIs being used</p>
+                  <div class="fix-titles">
+                     <div class="maintitle">
+                        <h1> Email Header Analysis </h1>
+                     </div>
+                     <div class="example">
+                        <a target="_blank" href="https://docs.google.com/document/d/1h0iHijSztQwomQJyhlI8VT-qlmwdfyeqy16LWLVe9VQ/edit?usp=sharing">Get Header Example Here</a>
+                     </div>
                   </div>
                   <table class="texttoparse">
                      <tbody>

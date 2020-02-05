@@ -204,3 +204,7 @@ p {
 #footer {
     padding-bottom: 100px;
 }
+
+.fix-titles {
+    min-width: 420px;
+}

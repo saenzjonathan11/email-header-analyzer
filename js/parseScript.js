@@ -43,10 +43,25 @@ function parse() {
     // clear text area and table for every button press
     document.getElementById("textToParse").value = "";
     let tableBody = document.getElementById("ipTableBody").innerHTML = "";
+
+    let promises = [];
+    // for (let i = 0; i < publicIPs.length; ++i) {
+    //     runRequest(publicIPs[i]);
+    // }
     for (let i = 0; i < publicIPs.length; ++i) {
-        runRequest(publicIPs[i]);
+        promises.push(runRequest2(publicIPs[i]));
     }
 
+    Promise.all(promises)
+    .then((results) => {
+
+        for (let i = 0; i < results.length; ++i) {
+            if(results[i].ip == null) {
+                renderTable(/* json object get inputted*/);
+            }
+        }
+    })
+    .catch((err) => console.log(err));
 }
 
 function runRequest(uniqueIP) {
@@ -68,6 +83,23 @@ function runRequest(uniqueIP) {
     }
     request.send();
 }
+
+
+async function runRequest2(uniqueIP) {
+    var lat = 0; lng = 0;
+    let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
+    let reponse = await fetch(url)
+    let json = reponse.json();
+
+    // if (typeof(data["ip"]) !== "undefined") {
+    //         lat = parseInt(data["latitude"]);
+    //         lng = parseInt(data["longitude"]);
+    //         initMap(lat, lng);
+    //         renderTable(data);
+    // }
+}
+
+
 
 function renderTable(data) {
     iter = iter + 1;
