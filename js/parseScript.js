@@ -1,4 +1,5 @@
 var iter = 0;
+var maxNum = 0;
 // Initialize and add the map
 function initMap(latitude = 42, longitude = 32) {
     console.log("map");
@@ -40,71 +41,58 @@ function parse() {
     console.log(messageID);
     console.log(publicIPs);
 
+    maxNum = publicIPs.length;
     // clear text area and table for every button press
     document.getElementById("textToParse").value = "";
     let tableBody = document.getElementById("ipTableBody").innerHTML = "";
 
-    // let promises = [];
+    // get promises based on IP addresses
+    let promises = [];
     for (let i = 0; i < publicIPs.length; ++i) {
-        runRequest(publicIPs[i]);
+        promises.push(runPromiseRequest(publicIPs[i]));
     }
-    // for (let i = 0; i < publicIPs.length; ++i) {
-    //     promises.push(runRequest2(publicIPs[i]));
-    // }
 
-    // Promise.all(promises)
-    // .then((results) => {
-
-    //     for (let i = 0; i < results.length; ++i) {
-    //         if(results[i].ip == null) {
-    //             renderTable(/* json object get inputted*/);
-    //         }
-    //     }
-    // })
-    // .catch((err) => console.log(err));
+    // return all promises at the same time. Catch private IP addresses
+    Promise.all(promises)
+        .then(results => {
+            for (let i = 0; i < results.length; i++) {
+                if (typeof(results[i].ip) !== "undefined") {
+                        lat = parseInt(results[i].latitude);
+                        lng = parseInt(results[i].longitude);
+                        initMap(lat, lng);
+                        renderTable(results[i].ip, results[i].country, results[i].region, results[i].countryCode, results[i].flagURL);
+                }
+          }
+      })
+      .catch(err => console.log(err));
 }
 
-function runRequest(uniqueIP) {
+async function runPromiseRequest(uniqueIP) {
     var lat = 0; lng = 0;
     let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
-    let request = new XMLHttpRequest();
-    request.responseType = "json";
-    request.open("GET", url);
-    request.onload = function() {
-        let data = request.response;
-        console.log(data);
-        console.log(typeof(data["ip"]) !== "undefined");
-        if (typeof(data["ip"]) !== "undefined") {
-                lat = parseInt(data["latitude"]);
-                lng = parseInt(data["longitude"]);
-                initMap(lat, lng);
-                renderTable(data);
-        }
+    let reponse = await fetch(url)
+    let json = await reponse.json();
+    try {
+        ip = json.ip;
+    } catch {
+        console.log("There is no ip found");
+        console.error(err);
     }
-    request.send();
+    return {
+        ip: json.ip,
+        country: json.country_name,
+        region: json.state_prov,
+        countryCode: json.country_code,
+        flagURL: json.country_flag,
+        latitude: json.latitude,
+        longitude: json.longitude
+    };
 }
 
-
-// async function runRequest2(uniqueIP) {
-//     var lat = 0; lng = 0;
-//     let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
-//     let reponse = await fetch(url)
-//     let json = reponse.json();
-
-//     // if (typeof(data["ip"]) !== "undefined") {
-//     //         lat = parseInt(data["latitude"]);
-//     //         lng = parseInt(data["longitude"]);
-//     //         initMap(lat, lng);
-//     //         renderTable(data);
-//     // }
-// }
-
-
-
-function renderTable(data) {
+function renderTable(ip, country, region, countryCode, flagURL) {
     iter = iter + 1;
     let numCols = 5;
-    ip = data["ip"];
+    // ip = data["ip"];
     // let url2 = 'https://www.virustotal.com/vtapi/v2/ip-address/report?apikey=a084c74b1c2c65e9cc351b26ad193ff2b83d2a3359850e298af64442a22b7627&ip=' + ip;
     // let request2 = new XMLHttpRequest();
     // request2.responseType = 'json';
@@ -115,12 +103,8 @@ function renderTable(data) {
     // request2.send();
 
     party = "virusTotal&Talos";
-    country = data["country_name"];
-    region = data["state_prov"];
-    countryCode = data["country_code"];
-    flagURL = data["country_flag"];
 
-    if (iter == 1) {
+    if (iter == maxNum - 1) {
         ip = "*" + ip.trim();
     }
 
