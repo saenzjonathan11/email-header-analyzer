@@ -44,24 +44,24 @@ function parse() {
     document.getElementById("textToParse").value = "";
     let tableBody = document.getElementById("ipTableBody").innerHTML = "";
 
-    let promises = [];
-    // for (let i = 0; i < publicIPs.length; ++i) {
-    //     runRequest(publicIPs[i]);
-    // }
+    // let promises = [];
     for (let i = 0; i < publicIPs.length; ++i) {
-        promises.push(runRequest2(publicIPs[i]));
+        runRequest(publicIPs[i]);
     }
+    // for (let i = 0; i < publicIPs.length; ++i) {
+    //     promises.push(runRequest2(publicIPs[i]));
+    // }
 
-    Promise.all(promises)
-    .then((results) => {
+    // Promise.all(promises)
+    // .then((results) => {
 
-        for (let i = 0; i < results.length; ++i) {
-            if(results[i].ip == null) {
-                renderTable(/* json object get inputted*/);
-            }
-        }
-    })
-    .catch((err) => console.log(err));
+    //     for (let i = 0; i < results.length; ++i) {
+    //         if(results[i].ip == null) {
+    //             renderTable(/* json object get inputted*/);
+    //         }
+    //     }
+    // })
+    // .catch((err) => console.log(err));
 }
 
 function runRequest(uniqueIP) {
@@ -85,19 +85,19 @@ function runRequest(uniqueIP) {
 }
 
 
-async function runRequest2(uniqueIP) {
-    var lat = 0; lng = 0;
-    let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
-    let reponse = await fetch(url)
-    let json = reponse.json();
+// async function runRequest2(uniqueIP) {
+//     var lat = 0; lng = 0;
+//     let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
+//     let reponse = await fetch(url)
+//     let json = reponse.json();
 
-    // if (typeof(data["ip"]) !== "undefined") {
-    //         lat = parseInt(data["latitude"]);
-    //         lng = parseInt(data["longitude"]);
-    //         initMap(lat, lng);
-    //         renderTable(data);
-    // }
-}
+//     // if (typeof(data["ip"]) !== "undefined") {
+//     //         lat = parseInt(data["latitude"]);
+//     //         lng = parseInt(data["longitude"]);
+//     //         initMap(lat, lng);
+//     //         renderTable(data);
+//     // }
+// }
 
 
 
