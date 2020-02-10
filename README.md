@@ -10,4 +10,3 @@ Currently under development but can access application by visiting [emailheadera
 - Create MySQL database
 - Accept user email headers with option to save in database or not
 - Count down from 1000 to 0 to know how many API request remain for daily limit with [ipgeolocation.io](https://ipgeolocation.io)
-- Make text area box contained/fixed to light grey boarder
