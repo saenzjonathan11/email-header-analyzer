@@ -59,7 +59,7 @@
             <thead id="ipTableHead">
                <tr id="tableHeader">
                   <th>IP address(s)</th>
-                  <th>3rd Party Anaylzer</th>
+                  <th>Cisco Talos</th>
                   <th>Country</th>
                   <th>Region</th>
                   <th>Flag</th>
