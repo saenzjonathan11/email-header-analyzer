@@ -29,17 +29,17 @@ function parse() {
     var regex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/g;
     var regex2 = /Message-ID:\s+([<'])(.*?)([>'])/g
     ipAll = text.match(regex);
+    console.log(ipAll);
     // remove duplicates ip addresses
     publicIPs = Array.from(new Set(ipAll));
     // extract message ID from header
     messageID = text.match(regex2);
-    messageID = messageID[messageID.length-1];
-    messageID = messageID.substring(13, messageID.length-1);
-
-    displayBody("MesageID: " + messageID);
-
-    // console.log(messageID);
-    // console.log(publicIPs);
+    if (messageID == null) {
+        messageID = "N/A";
+    } else {
+        messageID = messageID[messageID.length-1]; // get first item in list
+        messageID = messageID.substring(13, messageID.length-1);
+    }
 
     maxNum = publicIPs.length;
     // clear text area and table for every button press
@@ -66,13 +66,12 @@ function parse() {
                 }
           }
       })
-      .catch(err => console.log(err));
-      console.log(finalArray);
+      .catch(err => {console.log(err); maxNum -1;});
+      displayBody("MesageID: " + messageID);
 }
 
 // callback function for all geolocation promises
 async function runPromiseRequestGL(uniqueIP) {
-    // var lat = 0; lng = 0;
     let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
     let reponse = await fetch(url)
     let json = await reponse.json();
@@ -126,7 +125,7 @@ function renderTable(ip, country, region, countryCode, flagURL) {
     let talosIco = "https://talosintelligence.com/assets/favicons/favicon-49c9b25776778ff43873cf5ebde2e1ffcd0747ad1042ac5a5306cdde3ffca8cd.ico"
 
 
-    if (iter == maxNum - 1) {
+    if (iter == maxNum) {
         ip = "*" + ip.trim();
     }
 
@@ -180,6 +179,6 @@ function transferFailed(evt) {
 function displayBody(messageID) {
     document.getElementById("dataTable").style.display = "block";
     document.getElementById("map").style.display = "inline-block";
-    document.getElementById("messageID").innerHTML = "MessageID: " + messageID;
+    document.getElementById("messageID").innerHTML = messageID;
     document.getElementById("messageID").style.display = "block";
 }
