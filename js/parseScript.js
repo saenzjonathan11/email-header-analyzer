@@ -29,7 +29,6 @@ function parse() {
     var regex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/g;
     var regex2 = /Message-ID:\s+([<'])(.*?)([>'])/g
     ipAll = text.match(regex);
-    console.log(ipAll);
     // remove duplicates ip addresses
     publicIPs = Array.from(new Set(ipAll));
     // extract message ID from header
@@ -51,7 +50,7 @@ function parse() {
     for (let i = 0; i < publicIPs.length; ++i) {
         promises.push(runPromiseRequestGL(publicIPs[i]));
     }
-
+    console.log("here");
     let finalArray = [];
     // return all geolocation promises at the same time. Catch private IP addresses
     Promise.all(promises)
@@ -66,7 +65,10 @@ function parse() {
                 }
           }
       })
-      .catch(err => {console.log(err); maxNum -1;});
+      .catch(err => {
+        console.log(err); 
+        });
+        
       displayBody("MesageID: " + messageID);
 }
 
@@ -75,11 +77,9 @@ async function runPromiseRequestGL(uniqueIP) {
     let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
     let reponse = await fetch(url)
     let json = await reponse.json();
-    try {
-        ip = json.ip;
-    } catch {
-        console.log("There is no ip found");
-        console.error(err);
+    ip = json.ip;
+    if (typeof(ip) == "undefined") {
+        maxNum = maxNum - 1;
     }
     return {
         ip: json.ip,
@@ -94,7 +94,6 @@ async function runPromiseRequestGL(uniqueIP) {
 
 // callback function for virus total promises
 async function runPromiseRequestVT(uniqueIP) {
-
     let url = "https://www.virustotal.com/vtapi/v2/ip-address/report?apikey=a084c74b1c2c65e9cc351b26ad193ff2b83d2a3359850e298af64442a22b7627&ip=" + uniqueIP;
     let reponse = await fetch(url)
     let json = await reponse.json();
@@ -123,7 +122,6 @@ function renderTable(ip, country, region, countryCode, flagURL) {
 
     let talosURL = "https://talosintelligence.com/reputation_center/lookup?search=" + ip;
     let talosIco = "https://talosintelligence.com/assets/favicons/favicon-49c9b25776778ff43873cf5ebde2e1ffcd0747ad1042ac5a5306cdde3ffca8cd.ico"
-
 
     if (iter == maxNum) {
         ip = "*" + ip.trim();
