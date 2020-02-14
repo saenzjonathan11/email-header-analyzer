@@ -27,7 +27,7 @@ function parse() {
     // extract all IP addresses
     var text = document.getElementById("textToParse").value; 
     var regex = /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/g;
-    var regex2 = /Message-ID:\s+([<'])(.*?)([>'])/g
+    var regex2 = /Message-ID:(\s+|)((.?))([^\s]+)/g
     ipAll = text.match(regex);
     // remove duplicates ip addresses
     publicIPs = Array.from(new Set(ipAll));
@@ -36,8 +36,7 @@ function parse() {
     if (messageID == null) {
         messageID = "N/A";
     } else {
-        messageID = messageID[messageID.length-1]; // get first item in list
-        messageID = messageID.substring(13, messageID.length-1);
+        messageID = messageID[messageID.length-1];
     }
 
     maxNum = publicIPs.length;
@@ -50,7 +49,7 @@ function parse() {
     for (let i = 0; i < publicIPs.length; ++i) {
         promises.push(runPromiseRequestGL(publicIPs[i]));
     }
-    console.log("here");
+
     let finalArray = [];
     // return all geolocation promises at the same time. Catch private IP addresses
     Promise.all(promises)
@@ -69,7 +68,7 @@ function parse() {
         console.log(err); 
         });
         
-      displayBody("MesageID: " + messageID);
+      displayBody(messageID);
 }
 
 // callback function for all geolocation promises
