@@ -75,7 +75,7 @@ function parse() {
 
 // callback function for all geolocation promises
 async function runPromiseRequestGL(uniqueIP) {
-  let url = "https://api.ipgeolocation.io/ipgeo?apiKey=9bec34ed8a974713a5d07634236b1ae8&ip=" + uniqueIP;
+  let url = "https://api.ipgeolocation.io/ipgeo?apiKey=" + ipGeoApiKey + "&ip=" + uniqueIP;
   let reponse = await fetch(url)
   let json = await reponse.json();
   ip = json.ip;
@@ -93,27 +93,7 @@ async function runPromiseRequestGL(uniqueIP) {
   };
 }
 
-// callback function for virus total promises
-async function runPromiseRequestVT(uniqueIP) {
-  let url = "https://www.virustotal.com/vtapi/v2/ip-address/report?apikey=a084c74b1c2c65e9cc351b26ad193ff2b83d2a3359850e298af64442a22b7627&ip=" + uniqueIP;
-  let reponse = await fetch(url)
-  let json = await reponse.json();
-  try {
-    ip = json.resource;
-  } catch {
-    console.log("There is no ip found");
-    console.error(err);
-  }
-  return {
-    ip: json.resource,
-    responseCode: json.response_code,
-    scanDate: json.scan_date,
-    permalink: json.permalink,
-    positives: json.positives,
-    total: json.total 
-  };
-}
-
+// IP table
 function renderTable(ip, country, region, countryCode, flagURL) {
   iter = iter + 1;
   let numCols = 5;
@@ -178,3 +158,8 @@ function displayBody(messageID) {
   document.getElementById("messageID").innerText = messageID;
   document.getElementById("messageID").style.display = "block";
 }
+
+// hide api from source code
+$(document).ready(function(){
+    $('body').append("<script type='text/javascript' src='" + "https://maps.googleapis.com/maps/api/js?key=" + mapApiKey + "&callback=initMap" + "'/>");
+});
