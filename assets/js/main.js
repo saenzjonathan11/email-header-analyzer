@@ -26,17 +26,18 @@ function parse() {
   // extract all IP addresses
   var text = document.getElementById("textToParse").value; 
   var regex = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g;
-  var regex2 = /Message-ID:(\s+|)((.?))([^\s]+)/g
+  var regex2 = /Message-ID:(\s+|<)((.?))([^\s]+)/g
   ipAll = text.match(regex);
   // remove duplicates ip addresses
   publicIPs = Array.from(new Set(ipAll));
   // extract message ID from header
   let messageID = text.match(regex2);
   let messageIDstr = "";
+
   if (messageID == null) {
     messageID = "N/A";
   } else if(messageID.length != 1) {
-    messageIDstr = "Error: There is more than one messageID";
+    messageIDstr = "Error: There is more than one leading string with 'MessageID: (\s|<)'";
   } else {
     messageIDstr = messageID[0].replace(/(\r\n|\n|\r)/gm,"");
   }
